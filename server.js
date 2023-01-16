@@ -1,14 +1,25 @@
-const express = require ('express');
+const express = require('express'),
+    cors = require('cors')
+require("dotenv").config()
+
 const app = express()
+const port = process.env.PORT
+const connect = require('./config/db')
+const { Link } = require('./models/linkModels.js')
+const { linkRoutes, userRoutes } = require('./routes')
 
+app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({extended: false}))
+connect()
 
-const port = process.env.PORT || 8000
+app.get('/', async (req, res) => {
+    res.send('Hello')
 
-
-app.get('/', (req, res) => {
-    res.send('Hello world :)');
 })
 
+app.use(linkRoutes)
+
 app.listen(port, () => {
-    console.log('Server running at:', port)
+    console.log(`Server running at http://localhost:${port}`)
 })
