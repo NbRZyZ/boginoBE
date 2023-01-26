@@ -1,19 +1,18 @@
-const { Link } = require("../models/linkModels.js");
+const { Link } = require("../models/linkModels");
 
-exports.createLink = async (req, res) => {
+exports.createlink = async (req, res) => {
   const url = req.body;
   const result = await new Link(url).save();
   res.send(result);
 };
 
 exports.getLinks = async (req, res) => {
-  const result = await Link.find({});
-  res.send(result); 
+  const link = await Link.find({});
+  res.send(link);
 };
 
-exports.getShortLink = async (req, res) => {
+exports.getShortlink = async (req, res) => {
   const shortUrl = await Link.findOne({ short: req.params.shortUrl });
-  console.log(shortUrl);
   if (shortUrl == null) return res.sendStatus(404);
   res.redirect(shortUrl.full);
 };

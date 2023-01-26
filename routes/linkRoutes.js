@@ -1,11 +1,15 @@
-const express = require("express"),
-  cors = require("cors");
-const { createLink, getLinks, getShortLink } = require("../controllers/linkController");
+const express = require("express");
+const {
+  getLinks,
+  createlink,
+  getShortlink,
+} = require("../controllers/linkController");
+
 const router = express.Router();
 
 router
-  .post("/links", createLink)
-  .get("/:shortUrl", getShortLink)
-  .get("/links", getLinks);
+  .get("/links", getLinks)
+  .get("/:shortUrl", getShortlink)
+  .post("/links", createlink);
 
-exports.linkRoutes = router;
+module.exports.linkRouter = router;
