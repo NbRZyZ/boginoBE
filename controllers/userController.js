@@ -10,13 +10,16 @@ exports.getUsers = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
-  const { username, password, email } = req.body || {};
+  const {  password, email } = req.body || {};
+  // username,
 
-  if (!username || !password || !email)
+  if ( !password || !email)
+  // !username ||
     return res.send("username, password and email is required");
 
   try {
-    const userDocument = new User({ username, password, email });
+    const userDocument = new User({  password, email });
+    // username,
     const user = await userDocument.save();
     res.send(user);
   } catch (error) {

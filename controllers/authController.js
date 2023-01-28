@@ -3,35 +3,31 @@ const { User } = require("../models/userModels");
 const bcrypt = require("bcrypt");
 
 exports.signup = async (req, res) => {
-  const { username, password, email } = req.body || {};
-
-  if (!username || !password || !email)
+  const { password, email } = req.body || {};
+  if (!password || !email)
     return res.send("username, password and email is required");
 
-  const encryptedPassword = await bcrypt.hash(password, 10);
   try {
-    const userDocument = new User({
-      username,
-      password: encryptedPassword,
+    const encrypted = await bcrypt.hash(password, 10);
+    const user = await new User({
       email,
-    });
-    const user = await userDocument.save();
+      password: encrypted,
+    }).save();
     res.send(user);
-  } catch (error) {
-    res.send(error);
+  } catch (err) {
+    res.send(err);
   }
 };
 
 exports.login = async (req, res) => {
-  const { username, password } = req.body || {};
+  const { email, password } = req.body || {};
 
-  if (!username || !password)
-    return res.send("username, password and email is required");
+  if (!email || !password) return res.send("password and email is required");
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
 
-    const token = generateToken({ username, password });
+    const token = generateToken({ email, password });
 
     const isEqual = await bcrypt.compare(password, user.password);
     if (isEqual) return res.send(token);
