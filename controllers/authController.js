@@ -31,6 +31,7 @@ exports.login = async (req, res) => {
 
     const isEqual = await bcrypt.compare(password, user.password);
     if (isEqual) return res.send(token);
+    res.send(user);
 
     res.send("Your password is incorrect");
   } catch (error) {
