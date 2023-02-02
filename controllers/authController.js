@@ -5,7 +5,8 @@ const bcrypt = require("bcrypt");
 exports.signup = async (req, res) => {
   const { password, email } = req.body || {};
   if (!password || !email)
-    return res.send("username, password and email is required");
+    console.log(403)
+    // return res.send("username, password and email is required");
 
   try {
     const encrypted = await bcrypt.hash(password, 10);
@@ -22,8 +23,8 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body || {};
 
-  if (!email || !password) return res.send("password and email is required");
-
+    // if (!email || !password) return res.send("password and email is required");
+    console.log(403)
   try {
     const user = await User.findOne({ email });
 
@@ -31,10 +32,11 @@ exports.login = async (req, res) => {
 
     const isEqual = await bcrypt.compare(password, user.password);
     if (isEqual) return res.send(token);
-    res.send(user);
-
-    res.send("Your password is incorrect");
-  } catch (error) {
-    throw res.send("User not found");
+      console.log(403)
+    // res.send("Your password is incorrect");
+  }
+   catch (error) {
+    console.log(403)
+    // throw res.send("User not found");
   }
 };
