@@ -1,8 +1,12 @@
 const { Link } = require("../models/linkModels");
 
 exports.createlink = async (req, res) => {
-  const url = req.body;
-  const result = await new Link(url).save();
+  const {full , author_id} = req.body || {};
+  const result = new Link({
+    full,
+    author_id
+  })
+  await result.save();
   res.send(result);
 };
 
