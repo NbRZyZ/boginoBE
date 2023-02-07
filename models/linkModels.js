@@ -15,7 +15,7 @@ const linkSchema = new Schema(
     author_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      // required: true,
     },
   },
   {
